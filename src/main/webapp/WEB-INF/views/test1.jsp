@@ -13,11 +13,31 @@
 <script type="text/javascript">
 	function viewInfo(listNum){
 		var i = listNum;
-
-		$('#listNm').val(i);
+		
+		$('#selNum').val(i);
 
 		$('#selectMem').submit();
 				
+		}
+
+	function delInfo(){
+	alert("삭제로 옴 ");
+		
+		var chkbox = document.getElementsByName('del');
+		var delNumArr = "";
+
+		
+ 		for(var i=0; i<chkbox.length; i++){
+ 	  			if(chkbox[i].checked){
+ 				delNumArr = delNumArr +"," +chkbox[i].value; // ,1,2,3
+ 				}
+ 			}
+
+		alert(delNumArr);
+
+		$('#delNumArr').val(delNumArr);
+		$('#deleteMem').submit();
+
 		}
 
 </script>
@@ -59,19 +79,25 @@ cursor: pointer;
 					<td class="testhover" onclick="viewInfo('${list.num}');">${list.name}</td>
 					<td>${list.level}</td>
 					<td>${list.dept}</td>
-					<td>${list.del}</td>
+					<td>
+						<input type="checkbox" id="del_${list.num}" name="del" value="${list.num}" <c:if test="${list.del eq 'Y'}">checked</c:if>>
+					</td>
 				</tr>
 			</c:forEach>
 		</table>
 		<div id="bottomButton" style="margin-left: 512px; margin-top: 5px;">
-			<button><a href="insert">등록</a></button><button>삭제</button>
+			<button><a href="insert">등록</a></button>
+			<button onclick="delInfo();">삭제</button>
 		</div>
 	</div>
 </div>
 
-<form id="selectMem" action="memInfo" method="post">
-	<input type="hidden" name="selNm" id="selNm">
-	
+<form id="selectMem" action="detail" method="post">
+	<input type="hidden" name="selNum" id="selNum">
+</form>
+
+<form id="deleteMem" action="deleteMem" method="post">
+	<input type="hidden" name="delNumArr" id="delNumArr">
 </form>
 
 </body>

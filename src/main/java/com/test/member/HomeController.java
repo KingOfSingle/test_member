@@ -1,6 +1,8 @@
 package com.test.member;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.test.dto.MemberInfo;
 import com.test.service.memService;
 
 /**
@@ -57,14 +60,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
 	public String insert(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
 		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
 		
 		return "insert";
 	}
@@ -90,6 +86,39 @@ public class HomeController {
 		service2.insertMem(paramMap);		
 		
 		return "test1";
+	}
+	
+	@RequestMapping(value = "/detail", method = RequestMethod.POST)
+	public String detail(HttpServletRequest request, Model model) {
+		
+		String selNum = request.getParameter("selNum");
+		
+		
+		MemberInfo memberInfo = service2.detailMem(selNum);
+		
+		logger.info("testesttest: "+memberInfo.getDept());
+		
+		
+		model.addAttribute("memberInfo", memberInfo);
+		
+		return "detail";
+	}
+	
+	@RequestMapping(value = "/deleteMem", method = RequestMethod.POST)
+	public String deleteMem(HttpServletRequest request) {
+		
+		String delNum = request.getParameter("delNumArr");
+		String subNum = delNum.substring(1);
+		String[] splNum = subNum.split(","); //splNum[i] = i
+		
+		ArrayList delArr = new ArrayList(Arrays.asList(splNum));
+		
+		service2.deleteMem(delArr);
+		
+		logger.info("delNum: " +delArr);
+		
+		
+		return "redirect:";
 	}
 	
 }

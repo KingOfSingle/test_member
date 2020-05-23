@@ -1,7 +1,10 @@
 package com.test.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.test.dto.MemberInfo;
 
 public interface memInsertDao {
 	
@@ -10,4 +13,11 @@ public interface memInsertDao {
 
 	//member select
 	public List selectMem();
+
+	//member detail
+	public MemberInfo detailMem(String selNum);
+	
+	//member delete
+	public void deleteMem(ArrayList delArr);
+	
 }

@@ -12,23 +12,18 @@
 	<table>
 		<tr>
 			<td>성명: </td>
-			<td><input id="name" type="text"></td>
+			<td>${memberInfo.name}</td>
 		</tr>
 		<tr>
 		 	<td>직급: </td>
-		
-			<td>
-			
-			</td>
+			<td>${memberInfo.level}</td>
 		</tr>
 		<tr>
 			<td>부서: </td>
-			<td>
-			
-			</td>
+			<td>${memberInfo.dept}</td>
 		</tr>
 	</table>
-	<button>초기화</button><button id="insert" onclick="insertMem();">등록</button>	
+	<button>수정</button><button>목록</button>	
 </div>
 
 </body>

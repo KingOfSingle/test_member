@@ -17,5 +17,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	<select id="memSelect" resultType="java.util.HashMap">
  		SELECT num, name, level, dept, del from meminfo
  	</select>
+ 	
+ 	<select id="memDetail" resultType="com.test.dto.MemberInfo" parameterType="java.lang.String">
+ 		select name, level, dept, del from meminfo where num = #{selNum}; 
+ 	</select>
+ 	
+ 	<update id="memDelete" parameterType="java.util.ArrayList">
+ 		update meminfo set del = 'Y' where num in <foreach item = "delNum" collection = "list" separator="," open="(" close=")">
+ 			#{delNum} <!-- in ('1', '2') -->
+ 		</foreach>
+ 	</update>
  
 </mapper>
