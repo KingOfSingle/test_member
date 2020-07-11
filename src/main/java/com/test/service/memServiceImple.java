@@ -46,6 +46,13 @@ public class memServiceImple implements memService{
 		logger.info("serviceImple:" +delArr);
 		meminsertdao.deleteMem(delArr);
 	}
+
+	@Override
+	public List searchMem(String searchTxt) {
+		// TODO Auto-generated method stub
+		return meminsertdao.searchMem(searchTxt);
+		
+	}
 	
 
 }

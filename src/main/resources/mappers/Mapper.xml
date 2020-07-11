@@ -27,5 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			#{delNum} <!-- in ('1', '2') -->
  		</foreach>
  	</update>
+ 	
+ 	<select id="memSearch" parameterType="java.lang.String" resultType="java.util.HashMap">
+ 		SELECT num, name, level, dept, del 
+ 		  from meminfo
+		where 1=1
+		AND INSTR(name,#{searchTxt}) > 0
+ 	 	</select>
  
 </mapper>

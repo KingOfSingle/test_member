@@ -121,4 +121,36 @@ public class HomeController {
 		return "redirect:";
 	}
 	
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public String searchMem(HttpServletRequest request, Model model) {
+		
+		String searchTxt = request.getParameter("searchT");
+		
+		List searchMem = service2.searchMem(searchTxt);
+		
+		logger.debug("search  = "+searchTxt);
+		/* 값이 제대로 전달되었는지 확인
+		 * for(int i=0; i<searchMem.size(); i++) { Map map = (Map)searchMem.get(i);
+		 * 
+		 * int num = (Integer) map.get("num"); String name = (String)map.get("name");
+		 * String level = (String)map.get("level");
+		 * 
+		 * logger.debug("fjefi: " +num +" " +name +" " +level); }
+		 */
+		
+		logger.debug("mapsize: " +searchMem.size());
+		Map map = new HashMap();
+		Object d ;
+		List ds = new ArrayList();
+		d = ds;
+		List v = (List)d;
+		
+		
+		model.addAttribute("memList", searchMem);
+		
+		return "test1";
+		//return "redirect:";
+		
+	}
+	
 }

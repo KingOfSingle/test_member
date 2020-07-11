@@ -20,4 +20,7 @@ public interface memService {
 	//delete member
 	public void deleteMem(ArrayList delArr);
 
+	//search member
+	public List searchMem(String searchTxt);
+
 }

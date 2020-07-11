@@ -18,3 +18,9 @@ select name, level, dept, del from meminfo where num = '1';
 
 테이블 삭제
 drop table meminfo;
+
+
+	SELECT num, name, level, dept, del 
+ 		  from meminfo
+		--where name like '%' || '길' || '%'  
+		where INSTR(name,'길') > 0

@@ -50,4 +50,10 @@ public class memInsertDaoImple implements memInsertDao{
 		session.update("memList.memDelete", delArr);
 			
 	}
+
+	@Override
+	public List searchMem(String searchTxt) {
+		// TODO Auto-generated method stub
+		return session.selectList("memList.memSearch", searchTxt);
+	}
 }

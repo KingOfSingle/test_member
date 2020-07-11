@@ -19,5 +19,8 @@ public interface memInsertDao {
 	
 	//member delete
 	public void deleteMem(ArrayList delArr);
+
+	//member search
+	public List searchMem(String searchTxt);
 	
 }

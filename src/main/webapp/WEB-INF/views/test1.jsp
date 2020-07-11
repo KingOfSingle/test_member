@@ -11,6 +11,34 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 
 <script type="text/javascript">
+
+	function searchMem(){
+		//var searchTxt = $('#searchTxt').val();
+		var searchTxt = document.getElementById('searchTxt').value;
+		var selPosition = $('#selectPosition').val();
+		//var selPosition2 = document.getElementById('selectPosition').value;
+		console.log("선택한 직책은(jquery) :" + selPosition);
+		//console.log("선택한 직책은(getID) :" + selPosition2);
+		console.log("입력값 : " + searchTxt);
+
+		
+		if(searchTxt == ""){
+			return ;
+ 		}else {
+	 		$('#searchT').val(searchTxt);
+	 		$('#selectP').val(selPosition);
+	 		$('#searchMem').submit();
+ 		}
+	}
+
+	function enterKey() {
+        if (window.event.keyCode == 13) {
+ 
+             // 엔터키가 눌렸을 때 실행할 내용
+             searchMem();
+        }
+	}
+
 	function viewInfo(listNum){
 		var i = listNum;
 		
@@ -37,9 +65,21 @@
 
 		$('#delNumArr').val(delNumArr);
 		$('#deleteMem').submit();
-
 		}
 
+	function star(){
+
+		var str1="";
+		for(var i=0; i<=3; i++){
+			for(var j=0; j<=i; j++){
+				str1+="*";
+				}
+			str1+="</br>";
+			}
+		$('#star').html(str1);
+		
+		}
+	
 </script>
 
 <style>
@@ -62,8 +102,18 @@ cursor: pointer;
 <div>
 	<div id="member" style="margin: 200px auto; width: max-content;">
 		<div id="memSearch" style="margin-left: 375px;">
-			<input type="text">
-			<button>검색</button>	
+		<label>직책 :</label>
+		<select id="selectPosition">
+			<option value="">전체</option>
+			<option value="1">사원</option>
+			<option value="2">주임</option>
+			<option value="3">대리</option>
+			<option value="4">과장</option>
+			<option value="5">외주</option>
+		</select>
+		<label></label>
+			<input type="text" id="searchTxt" onkeyup="enterKey()" name="searchTxt">			
+			<button id="searchBtn" onclick="searchMem();">검색</button>	
 		</div>
 		<table id="memlist" style="width: 600px; margin-top: 5px">
 			<tr>
@@ -89,8 +139,20 @@ cursor: pointer;
 			<button><a href="insert">등록</a></button>
 			<button onclick="delInfo();">삭제</button>
 		</div>
+		
+		<div id="star">
+			*
+			<button onclick="star();">클릭</button>
+			
+		</div>
+		
 	</div>
 </div>
+
+<form id="searchMem" action="search" method="post">
+	<input type="hidden" name="searchT" id="searchT">
+	<input type="hidden" name="selectP" id="selectP">
+</form>
 
 <form id="selectMem" action="detail" method="post">
 	<input type="hidden" name="selNum" id="selNum">
