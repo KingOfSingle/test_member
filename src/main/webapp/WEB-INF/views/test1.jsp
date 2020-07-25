@@ -12,61 +12,40 @@
 
 <script type="text/javascript">
 
+
+	function insertBtn(){
+
+		console.log("www");
+		location.href="./insert";
+		
+		}
+
 	function searchMem(){
-		//var searchTxt = $('#searchTxt').val();
-		var searchTxt = document.getElementById('searchTxt').value;
-		var selPosition = $('#selectPosition').val();
-		//var selPosition2 = document.getElementById('selectPosition').value;
-		console.log("선택한 직책은(jquery) :" + selPosition);
-		//console.log("선택한 직책은(getID) :" + selPosition2);
-		console.log("입력값 : " + searchTxt);
 
+		var memLevel = $('#selectPosition').val();
+		var memName = $('#searchTxt').val();
+
+		console.log(memLevel);
+
+		$('#selectP').val(memLevel);
+		$('#searchT').val(memName);
+
+		$('#searchMem').submit();
 		
-		if(searchTxt == ""){
-			return ;
- 		}else {
-	 		$('#searchT').val(searchTxt);
-	 		$('#selectP').val(selPosition);
-	 		$('#searchMem').submit();
- 		}
-	}
-
-	function enterKey() {
-        if (window.event.keyCode == 13) {
- 
-             // 엔터키가 눌렸을 때 실행할 내용
-             searchMem();
-        }
-	}
-
-	function viewInfo(listNum){
-		var i = listNum;
-		
-		$('#selNum').val(i);
-
-		$('#selectMem').submit();
-				
 		}
 
-	function delInfo(){
-	alert("삭제로 옴 ");
-		
-		var chkbox = document.getElementsByName('del');
-		var delNumArr = "";
+	//Enterkey 실행
+	function enterKey(){
 
-		
- 		for(var i=0; i<chkbox.length; i++){
- 	  			if(chkbox[i].checked){
- 				delNumArr = delNumArr +"," +chkbox[i].value; // ,1,2,3
- 				}
- 			}
-
-		alert(delNumArr);
-
-		$('#delNumArr').val(delNumArr);
-		$('#deleteMem').submit();
+		console.log("enterkey");
+		if(window.event.keyCode == 13){
+			console.log("enterkey2");
+			//Enterkey 입력시 실행할 내용
+			searchMem();
+			
+			}
 		}
-
+	
 	function star(){
 
 		var str1="";
@@ -112,7 +91,7 @@ cursor: pointer;
 			<option value="5">외주</option>
 		</select>
 		<label></label>
-			<input type="text" id="searchTxt" onkeyup="enterKey()" name="searchTxt">			
+			<input type="text" id="searchTxt" onkeyup="enterKey();" name="searchTxt">			
 			<button id="searchBtn" onclick="searchMem();">검색</button>	
 		</div>
 		<table id="memlist" style="width: 600px; margin-top: 5px">
@@ -136,7 +115,7 @@ cursor: pointer;
 			</c:forEach>
 		</table>
 		<div id="bottomButton" style="margin-left: 512px; margin-top: 5px;">
-			<button><a href="insert">등록</a></button>
+			<button id="insertBtn" onclick="insertBtn();">등록</button>
 			<button onclick="delInfo();">삭제</button>
 		</div>
 		
