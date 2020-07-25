@@ -2,7 +2,6 @@ package com.test.member;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.test.dto.MemberInfo;
-import com.test.service.memService;
+import com.test.service.MemberService;
 
 /**
  * Handles requests for the application home page.
@@ -31,7 +32,7 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@Inject
-	memService service2;
+	MemberService memberService;
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -39,19 +40,21 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		List memList = service2.selectMem();
 		
-		for(int i=0; i<memList.size(); i++) {
-			Map map = (Map)memList.get(i);
-			
-			int num = (Integer) map.get("num");
-			String name = (String)map.get("name");
-			String level = (String)map.get("level");
-			
-			logger.debug("fjefi: " +num +" " +name +" " +level);
-		}
+		ArrayList<MemberInfo> memList = memberService.memberList();
 		
-		logger.debug("mapsize: " +memList.size());
+		/*
+		 * for(int i=0; i<memList.size(); i++) { 
+		 * 		Map map = (Map)memList.get(i);
+		 * 
+		 * 		int num = (Integer) map.get("num"); 
+		 * 		String name = (String)map.get("name");
+		 * 		String level = (String)map.get("level");
+		 * 
+		 * 		logger.debug("fjefi: " +num +" " +name +" " +level); }
+		 * 
+		 * 		logger.debug("mapsize: " +memList.size());
+		 */
 		
 		model.addAttribute("memList", memList);
 		
@@ -59,98 +62,57 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
-	public String insert(Locale locale, Model model) {
-		
+	public String insert(Locale locale) {
 		
 		return "insert";
 	}
 	
 	@RequestMapping(value = "/newmem", method = RequestMethod.POST)
-	public String newMem(HttpServletRequest request) {
+	public String newmem(Locale locale, HttpServletRequest request) {
 		
-		logger.info("fejiteseji");
-		
-		String memNm = request.getParameter("memNm");
-		String memLev = request.getParameter("memLev");
+		//getParameter id 아닌 name으로 값 넘김
+		String memName = request.getParameter("memName");
+		String memLevel = request.getParameter("memLevel");
 		String memDept = request.getParameter("memDept");
 		
-		logger.info("fefefw" +memNm);
-		logger.info(memLev);
-		logger.info(memDept);
+		System.out.println("Controller: " 
+							+"memName: " +memName +" " 
+							+"memLevel: " +memLevel +" " 
+							+"memDept: " +memDept);
 		
-		Map paramMap = new HashMap();
-		paramMap.put("memNm", memNm);
-		paramMap.put("memLev", memLev);
-		paramMap.put("memDept", memDept);
+		Map pramMap = new HashMap();
+		pramMap.put("memName", memName);
+		pramMap.put("memLevel", memLevel);
+		pramMap.put("memDept", memDept);
 		
-		service2.insertMem(paramMap);		
-		
-		return "test1";
-	}
-	
-	@RequestMapping(value = "/detail", method = RequestMethod.POST)
-	public String detail(HttpServletRequest request, Model model) {
-		
-		String selNum = request.getParameter("selNum");
+		memberService.memberInsert(pramMap);
 		
 		
-		MemberInfo memberInfo = service2.detailMem(selNum);
-		
-		logger.info("testesttest: "+memberInfo.getDept());
-		
-		
-		model.addAttribute("memberInfo", memberInfo);
-		
-		return "detail";
-	}
-	
-	@RequestMapping(value = "/deleteMem", method = RequestMethod.POST)
-	public String deleteMem(HttpServletRequest request) {
-		
-		String delNum = request.getParameter("delNumArr");
-		String subNum = delNum.substring(1);
-		String[] splNum = subNum.split(","); //splNum[i] = i
-		
-		ArrayList delArr = new ArrayList(Arrays.asList(splNum));
-		
-		service2.deleteMem(delArr);
-		
-		logger.info("delNum: " +delArr);
-		
-		
-		return "redirect:";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public String searchMem(HttpServletRequest request, Model model) {
+	public ModelAndView search(Locale locale, HttpServletRequest request, ModelAndView model) {
 		
-		String searchTxt = request.getParameter("searchT");
+		//getParameter id 아닌 name으로 값 넘김
+		String searchT = request.getParameter("searchT");
+		String selectP = request.getParameter("selectP");
+
+		System.out.println("Controller: " 
+							+"searchT: " +searchT +" " 
+							+"selectP: " +selectP);
 		
-		List searchMem = service2.searchMem(searchTxt);
+		Map pramMap = new HashMap();
+		pramMap.put("searchT", searchT);
+		pramMap.put("selectP", selectP);
 		
-		logger.debug("search  = "+searchTxt);
-		/* 값이 제대로 전달되었는지 확인
-		 * for(int i=0; i<searchMem.size(); i++) { Map map = (Map)searchMem.get(i);
-		 * 
-		 * int num = (Integer) map.get("num"); String name = (String)map.get("name");
-		 * String level = (String)map.get("level");
-		 * 
-		 * logger.debug("fjefi: " +num +" " +name +" " +level); }
-		 */
+		ArrayList<MemberInfo> memList = memberService.memberSearch(pramMap);
 		
-		logger.debug("mapsize: " +searchMem.size());
-		Map map = new HashMap();
-		Object d ;
-		List ds = new ArrayList();
-		d = ds;
-		List v = (List)d;
+		model.addObject("memList", memList);
+		model.setViewName("test1");
 		
-		
-		model.addAttribute("memList", searchMem);
-		
-		return "test1";
-		//return "redirect:";
-		
+		return model;
 	}
+	
 	
 }

@@ -10,18 +10,23 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 
 <script type="text/javascript">
-	function insertMem(){
-		var i = $('#name').val();
-		var j = $('#level').val();
-		var k = $('#dept').val();		
-		
-		$('#memNm').val(i);
-		$('#memLev').val(j);
-		$('#memDept').val(k);
 
-		$('#newMem').submit();
+	function insertMem(){
+
+		var name = $('#name').val();
+		var level = $('#level').val();
+		var dept = $('#dept').val();
+
+		console.log(name);
 		
-		}
+		$('#memName').val(name);
+		$('#memLevel').val(level);
+		$('#memDept').val(dept);
+
+		$('#newMem').submit();	
+		
+	}
+
 </script>
 
 <body>
@@ -55,8 +60,8 @@
 </div>
 
 <form id="newMem" action="newmem" method="post">
-	<input type="hidden" name="memNm" id="memNm">
-	<input type="hidden" name="memLev" id="memLev">
+	<input type="hidden" name="memName" id="memName">
+	<input type="hidden" name="memLevel" id="memLevel">
 	<input type="hidden" name="memDept" id="memDept">
 </form>
 

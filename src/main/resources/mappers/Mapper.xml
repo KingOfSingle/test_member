@@ -9,30 +9,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="idpwcheck" resultType="java.lang.Integer" parameterType="map">
             SELECT COUNT(*) FROM user_ID where user_id = #{id} and user_pw = #{pw}
     </select>
+    
+    <select id="memberList" resultType="com.test.dto.MemberInfo">
+    		SELECT * FROM meminfo
+    </select>
+    
+    <!-- memberInsert -->
+    <insert id="memberInsert" parameterType="map">
+    		INSERT INTO meminfo(name, level, dept, del) VALUES(#{memName}, #{memLevel}, #{memDept}, 'N')
+    </insert>
  
- 	<insert id="memInsert" parameterType="map">
- 		INSERT INTO meminfo(name,level,dept,del) VALUES(#{memNm}, #{memLev}, #{memDept}, "N")
- 	</insert>
- 
- 	<select id="memSelect" resultType="java.util.HashMap">
- 		SELECT num, name, level, dept, del from meminfo
+ 	<select id="memberSearch" parameterType="map" resultType="com.test.dto.MemberInfo">
+ 			SELECT * FROM meminfo where 1=1 dept=#{selectP} and name=#{searchT}
  	</select>
- 	
- 	<select id="memDetail" resultType="com.test.dto.MemberInfo" parameterType="java.lang.String">
- 		select name, level, dept, del from meminfo where num = #{selNum}; 
- 	</select>
- 	
- 	<update id="memDelete" parameterType="java.util.ArrayList">
- 		update meminfo set del = 'Y' where num in <foreach item = "delNum" collection = "list" separator="," open="(" close=")">
- 			#{delNum} <!-- in ('1', '2') -->
- 		</foreach>
- 	</update>
- 	
- 	<select id="memSearch" parameterType="java.lang.String" resultType="java.util.HashMap">
- 		SELECT num, name, level, dept, del 
- 		  from meminfo
-		where 1=1
-		AND INSTR(name,#{searchTxt}) > 0
- 	 	</select>
- 
+
 </mapper>
